@@ -1,29 +1,9 @@
-package osucalc
+package osumodcalculatorgo
 
 import (
 	"math"
 	"reflect"
 )
-
-//object for hit300,100,50 windows
-type hitwindowobj struct {
-	range300 float32
-	range100 float32
-	range50  float32
-	od       float32
-}
-type accuracygrade struct {
-	grade    string
-	accuracy float32
-	fullacc  float64
-}
-
-type basicmapval struct {
-	cs float32
-	ar float32
-	od float32
-	hp float32
-}
 
 /*
 convert approach rate to milliseconds
@@ -116,19 +96,18 @@ func ARtoms(ar float32) float32 {
 func msToOD(hitwin300 float32, hitwin100 float32, hitwin50 float32) *hitwindowobj {
 	odobj := new(hitwindowobj)
 	var od float32
+	od = 0
 	if reflect.TypeOf(hitwin300).Kind() == reflect.Float32 {
 		od = ((79.5 - hitwin300) / 6)
-	} else if reflect.TypeOf(hitwin100).Kind() == reflect.Float32 {
+	} /*else if reflect.TypeOf(hitwin100).Kind() == reflect.Float32 {
 		od = ((139.5 - hitwin100) / 8)
 	} else if reflect.TypeOf(hitwin50).Kind() == reflect.Float32 {
 		od = ((199.5 - hitwin50) / 10)
-	} else {
-		od = 0.0
-	}
+	}*/
 
 	odobj.range300 = hitwin300
-	odobj.range100 = hitwin100
-	odobj.range50 = hitwin50
+	//odobj.range100 = hitwin100
+	//odobj.range50 = hitwin50
 	odobj.od = od
 
 	return odobj
@@ -136,7 +115,7 @@ func msToOD(hitwin300 float32, hitwin100 float32, hitwin50 float32) *hitwindowob
 
 //convert ms to approach rate
 func msToAR(ms int) int {
-	var ar int
+	ar := 0
 	if ms < 300 {
 		ar = 11
 	} else if ms < 1200 {
@@ -149,12 +128,14 @@ func msToAR(ms int) int {
 
 //convert overall difficulty to double time
 func odDT(od float32) *hitwindowobj {
+
 	hitwins := new(hitwindowobj)
 
 	hitwins.range300 = (79 - (od * 6) + 0.5) * 2 / 3
 	hitwins.range100 = (139 - (od * 8) + 0.5) * 2 / 3
 	hitwins.range50 = (199 - (od * 8) + 0.5) * 2 / 3
 	hitwins.od = (79.5 - (od * 4 / 3)) / 6
+
 	return hitwins
 }
 
