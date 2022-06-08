@@ -93,7 +93,7 @@ func ARtoms(ar float32) float32 {
 }
 
 //convert hit windows to od
-func msToOD(hitwin300 float32, hitwin100 float32, hitwin50 float32) *hitwindowobj {
+func MsToOD(hitwin300 float32, hitwin100 float32, hitwin50 float32) *hitwindowobj {
 	odobj := new(hitwindowobj)
 	var od float32
 	od = 0
@@ -114,7 +114,7 @@ func msToOD(hitwin300 float32, hitwin100 float32, hitwin50 float32) *hitwindowob
 }
 
 //convert ms to approach rate
-func msToAR(ms int) int {
+func MsToAR(ms int) int {
 	ar := 0
 	if ms < 300 {
 		ar = 11
@@ -127,7 +127,7 @@ func msToAR(ms int) int {
 }
 
 //convert overall difficulty to double time
-func odDT(od float32) *hitwindowobj {
+func ODtoDT(od float32) *hitwindowobj {
 
 	hitwins := new(hitwindowobj)
 
@@ -140,7 +140,7 @@ func odDT(od float32) *hitwindowobj {
 }
 
 //convert overall difficulty to half time
-func odHT(od float32) *hitwindowobj {
+func ODtoHT(od float32) *hitwindowobj {
 	hitwins := new(hitwindowobj)
 
 	hitwins.range300 = (79 - (od * 6) + 0.5) * 4 / 3
@@ -151,7 +151,7 @@ func odHT(od float32) *hitwindowobj {
 }
 
 //calculate accuracy and grade/rank in osu! standard. accuracy is in decimal
-func calcGradeSTD(hit300 int, hit100 int, hit50 int, miss int) *accuracygrade {
+func CalcGradeSTD(hit300 int, hit100 int, hit50 int, miss int) *accuracygrade {
 
 	grades := new(accuracygrade)
 	tophalf := ((hit300 * 300) + (hit100 * 100) + (hit50 * 50))
@@ -186,7 +186,7 @@ func calcGradeSTD(hit300 int, hit100 int, hit50 int, miss int) *accuracygrade {
 }
 
 //calculates accuracy and grade for osu! taiko. hits: great(100%), good(50%), miss(0%)
-func calcGradeTaiko(hit300 int, hit100 int, miss int) *accuracygrade {
+func CalcGradeTaiko(hit300 int, hit100 int, miss int) *accuracygrade {
 	grades := new(accuracygrade)
 
 	tophalf := (hit300 + (hit100 / 2))
@@ -213,7 +213,7 @@ func calcGradeTaiko(hit300 int, hit100 int, miss int) *accuracygrade {
 }
 
 //calculates accuracy and grade for osu! catch the beat / fruits. hits: fruits, drops, droplets, miss
-func calcGradeCatch(hit300 int, hit100 int, hit50 int, hitkatu int, miss int) *accuracygrade {
+func CalcGradeCatch(hit300 int, hit100 int, hit50 int, hitkatu int, miss int) *accuracygrade {
 	totalhits := hit300 + hit100 + hit50 + hitkatu
 
 	tophalf := hit300 + hit100 + hit50
@@ -245,7 +245,7 @@ func calcGradeCatch(hit300 int, hit100 int, hit50 int, hitkatu int, miss int) *a
 }
 
 //calculates accuracy for osu! mania. hits: 300+/max, 300, 200, 100, 50, miss
-func calcGradeMania(hitgeki int, hit300 int, hitkatu int, hit100 int, hit50 int, miss int) *accuracygrade {
+func CalcGradeMania(hitgeki int, hit300 int, hitkatu int, hit100 int, hit50 int, miss int) *accuracygrade {
 	grades := new(accuracygrade)
 
 	totalhits := hitgeki + hit300 + hitkatu + hit100 + hit50 + miss
@@ -275,7 +275,7 @@ func calcGradeMania(hitgeki int, hit300 int, hitkatu int, hit100 int, hit50 int,
 
 	return grades
 }
-func toHR(cs float32, ar float32, od float32, hp float32) *basicmapval {
+func ToHR(cs float32, ar float32, od float32, hp float32) *basicmapval {
 	values := new(basicmapval)
 
 	csn := cs * 1.3
@@ -305,7 +305,7 @@ func toHR(cs float32, ar float32, od float32, hp float32) *basicmapval {
 	}
 	return values
 }
-func toEZ(cs float32, ar float32, hp float32, od float32) *basicmapval {
+func ToEZ(cs float32, ar float32, hp float32, od float32) *basicmapval {
 	values := new(basicmapval)
 
 	csn := cs / 2
