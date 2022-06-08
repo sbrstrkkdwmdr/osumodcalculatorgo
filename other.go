@@ -2,22 +2,22 @@ package osumodcalculatorgo
 
 //object for hit300,100,50 windows
 type hitwindowobj struct {
-	range300 float32
-	range100 float32
-	range50  float32
-	od       float32
+	Range300 float32
+	Range100 float32
+	Range50  float32
+	OD       float32
 }
 
 type accuracygrade struct {
-	grade    string
-	accuracy float32
-	fullacc  float64
+	Grade    string
+	Accuracy float32
+	Fullacc  float64
 }
 
 // circle size, approach rate, overall difficulty, health drain
 type basicmapval struct {
-	cs float32
-	ar float32
-	od float32
-	hp float32
+	CS float32
+	AR float32
+	OD float32
+	HP float32
 }
