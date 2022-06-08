@@ -1,4 +1,4 @@
-package osumodcalculatorgo_STRUCTS
+package osumodcalculatorgo
 
 //object for hit300,100,50 windows
 type hitwindowobj struct {
