@@ -1,4 +1,4 @@
-package osumodcalculatorgo_test
+package osumodcalculatorgo
 
 import (
 	"math"
