@@ -1,10 +1,30 @@
-package osumodcalculatorgo
+package osumodcalculatorgo_test
 
 import (
 	"math"
 	"reflect"
 )
+//object for hit300,100,50 windows
+type hitwindowobj struct {
+	Range300 float32
+	Range100 float32
+	Range50  float32
+	OD       float32
+}
 
+type accuracygrade struct {
+	Grade    string
+	Accuracy float32
+	Fullacc  float64
+}
+
+// circle size, approach rate, overall difficulty, health drain
+type basicmapval struct {
+	CS float32
+	AR float32
+	OD float32
+	HP float32
+}
 /*
 convert approach rate to milliseconds
 */
@@ -57,7 +77,7 @@ func ODtoms(od float32) *hitwindowobj {
 	Range100 := 139 - (od * 8) + 0.5
 	Range50 := 199 - (od * 8) + 0.5
 
-	rangeobj.range300 = range300
+	rangeobj.Range300 = range300
 	rangeobj.Range100 = Range100
 	rangeobj.Range50 = Range50
 	rangeobj.OD = od
@@ -105,7 +125,7 @@ func MsToOD(hitwin300 float32, hitwin100 float32, hitwin50 float32) *hitwindowob
 		od = ((199.5 - hitwin50) / 10)
 	}*/
 
-	odobj.range300 = hitwin300
+	odobj.Range300 = hitwin300
 	//odobj.Range100 = hitwin100
 	//odobj.Range50 = hitwin50
 	odobj.OD = od
@@ -131,7 +151,7 @@ func ODtoDT(od float32) *hitwindowobj {
 
 	hitwins := new(hitwindowobj)
 
-	hitwins.range300 = (79 - (od * 6) + 0.5) * 2 / 3
+	hitwins.Range300 = (79 - (od * 6) + 0.5) * 2 / 3
 	hitwins.Range100 = (139 - (od * 8) + 0.5) * 2 / 3
 	hitwins.Range50 = (199 - (od * 8) + 0.5) * 2 / 3
 	hitwins.OD = (79.5 - (od * 4 / 3)) / 6
@@ -143,7 +163,7 @@ func ODtoDT(od float32) *hitwindowobj {
 func ODtoHT(od float32) *hitwindowobj {
 	hitwins := new(hitwindowobj)
 
-	hitwins.range300 = (79 - (od * 6) + 0.5) * 4 / 3
+	hitwins.Range300 = (79 - (od * 6) + 0.5) * 4 / 3
 	hitwins.Range100 = (139 - (od * 8) + 0.5) * 4 / 3
 	hitwins.Range50 = (199 - (od * 8) + 0.5) * 4 / 3
 	hitwins.OD = (79.5 - (od*2/3)/6)
