@@ -54,13 +54,13 @@ func ODtoms(od float32) *hitwindowobj {
 	rangeobj := new(hitwindowobj)
 
 	range300 := 79 - (od * 6) + 0.5
-	range100 := 139 - (od * 8) + 0.5
-	range50 := 199 - (od * 8) + 0.5
+	Range100 := 139 - (od * 8) + 0.5
+	Range50 := 199 - (od * 8) + 0.5
 
 	rangeobj.range300 = range300
-	rangeobj.range100 = range100
-	rangeobj.range50 = range50
-	rangeobj.od = od
+	rangeobj.Range100 = Range100
+	rangeobj.Range50 = Range50
+	rangeobj.OD = od
 
 	return rangeobj
 
@@ -68,13 +68,13 @@ func ODtoms(od float32) *hitwindowobj {
 	/*
 			function ODtoms(od) {
 		    let range300 = 79 - (od * 6) + 0.5
-		    let range100 = 139 - (od * 8) + 0.5
-		    let range50 = 199 - (od * 10) + 0.5
+		    let Range100 = 139 - (od * 8) + 0.5
+		    let Range50 = 199 - (od * 10) + 0.5
 
 		    let rangeobj = {
 		        range300: range300,
-		        range100: range100,
-		        range50: range50,
+		        Range100: Range100,
+		        Range50: Range50,
 		    }
 		    return rangeobj;
 		}
@@ -106,9 +106,9 @@ func MsToOD(hitwin300 float32, hitwin100 float32, hitwin50 float32) *hitwindowob
 	}*/
 
 	odobj.range300 = hitwin300
-	//odobj.range100 = hitwin100
-	//odobj.range50 = hitwin50
-	odobj.od = od
+	//odobj.Range100 = hitwin100
+	//odobj.Range50 = hitwin50
+	odobj.OD = od
 
 	return odobj
 }
@@ -132,9 +132,9 @@ func ODtoDT(od float32) *hitwindowobj {
 	hitwins := new(hitwindowobj)
 
 	hitwins.range300 = (79 - (od * 6) + 0.5) * 2 / 3
-	hitwins.range100 = (139 - (od * 8) + 0.5) * 2 / 3
-	hitwins.range50 = (199 - (od * 8) + 0.5) * 2 / 3
-	hitwins.od = (79.5 - (od * 4 / 3)) / 6
+	hitwins.Range100 = (139 - (od * 8) + 0.5) * 2 / 3
+	hitwins.Range50 = (199 - (od * 8) + 0.5) * 2 / 3
+	hitwins.OD = (79.5 - (od * 4 / 3)) / 6
 
 	return hitwins
 }
@@ -144,9 +144,9 @@ func ODtoHT(od float32) *hitwindowobj {
 	hitwins := new(hitwindowobj)
 
 	hitwins.range300 = (79 - (od * 6) + 0.5) * 4 / 3
-	hitwins.range100 = (139 - (od * 8) + 0.5) * 4 / 3
-	hitwins.range50 = (199 - (od * 8) + 0.5) * 4 / 3
-	hitwins.od = (79.5 - (od*2/3)/6)
+	hitwins.Range100 = (139 - (od * 8) + 0.5) * 4 / 3
+	hitwins.Range50 = (199 - (od * 8) + 0.5) * 4 / 3
+	hitwins.OD = (79.5 - (od*2/3)/6)
 	return hitwins
 }
 
@@ -162,25 +162,25 @@ func CalcGradeSTD(hit300 int, hit100 int, hit50 int, miss int) *accuracygrade {
 
 	totalhits := hit300 + hit100 + hit50 + miss
 
-	grades.grade = "D"
+	grades.Grade = "D"
 	if float32(hit300/totalhits) > 0.6 && miss == 0 || float32(hit300/totalhits) > 0.7 {
-		grades.grade = "C"
+		grades.Grade = "C"
 	}
 	if float32(hit300/totalhits) > 0.7 && miss == 0 || float32(hit300/totalhits) > 0.8 {
-		grades.grade = "B"
+		grades.Grade = "B"
 	}
 	if float32(hit300/totalhits) > 0.8 && miss == 0 || float32(hit300/totalhits) > 0.9 {
-		grades.grade = "A"
+		grades.Grade = "A"
 	}
 	if float32(hit300/totalhits) > 0.9 && miss == 0 && float32(hit50/totalhits) < 0.01 {
-		grades.grade = "S"
+		grades.Grade = "S"
 	}
 	if float32(hit300/totalhits) > 1 {
-		grades.grade = "SS"
+		grades.Grade = "SS"
 	}
 
-	grades.accuracy = float32(math.Round(float64(equationshort)*100) / 100)
-	grades.fullacc = float64(equationfull)
+	grades.Accuracy = float32(math.Round(float64(equationshort)*100) / 100)
+	grades.Fullacc = float64(equationfull)
 
 	return grades
 }
@@ -191,22 +191,22 @@ func CalcGradeTaiko(hit300 int, hit100 int, miss int) *accuracygrade {
 
 	tophalf := (hit300 + (hit100 / 2))
 	bottomhalf := (hit300 + hit100 + miss)
-	grades.accuracy = float32(math.Round(float64(tophalf/bottomhalf)*100) / 100)
-	grades.fullacc = float64(tophalf / bottomhalf)
+	grades.Accuracy = float32(math.Round(float64(tophalf/bottomhalf)*100) / 100)
+	grades.Fullacc = float64(tophalf / bottomhalf)
 
-	grades.grade = "D"
+	grades.Grade = "D"
 
 	if float32(tophalf/bottomhalf) > 0.8 {
-		grades.grade = "B"
+		grades.Grade = "B"
 	}
 	if float32(tophalf/bottomhalf) > 0.9 {
-		grades.grade = "A"
+		grades.Grade = "A"
 	}
 	if float32(tophalf/bottomhalf) > 0.95 {
-		grades.grade = "S"
+		grades.Grade = "S"
 	}
 	if float32(tophalf/bottomhalf) == 1 {
-		grades.grade = "SS"
+		grades.Grade = "SS"
 	}
 
 	return grades
@@ -221,24 +221,24 @@ func CalcGradeCatch(hit300 int, hit100 int, hit50 int, hitkatu int, miss int) *a
 
 	grades := new(accuracygrade)
 
-	grades.accuracy = float32(math.Round(float64(tophalf/bottomhalf)*100) / 100)
-	grades.fullacc = float64(tophalf / bottomhalf)
+	grades.Accuracy = float32(math.Round(float64(tophalf/bottomhalf)*100) / 100)
+	grades.Fullacc = float64(tophalf / bottomhalf)
 
-	grades.grade = "D"
+	grades.Grade = "D"
 	if float32(tophalf/bottomhalf) > 0.85 {
-		grades.grade = "C"
+		grades.Grade = "C"
 	}
 	if float32(tophalf/bottomhalf) > 0.9 {
-		grades.grade = "B"
+		grades.Grade = "B"
 	}
 	if float32(tophalf/bottomhalf) > 0.94 {
-		grades.grade = "A"
+		grades.Grade = "A"
 	}
 	if float32(tophalf/bottomhalf) > 0.98 {
-		grades.grade = "S"
+		grades.Grade = "S"
 	}
 	if float32(tophalf/bottomhalf) == 1 {
-		grades.grade = "SS"
+		grades.Grade = "SS"
 	}
 
 	return grades
@@ -253,24 +253,24 @@ func CalcGradeMania(hitgeki int, hit300 int, hitkatu int, hit100 int, hit50 int,
 	tophalf := (300 * (hitgeki + hit300)) + (200 * hitkatu) + (100 * hit100) + (50 * hit50)
 	bottomhalf := 300 * totalhits
 
-	grades.accuracy = float32(math.Round(float64(tophalf/bottomhalf)*100) / 100)
-	grades.fullacc = float64(tophalf / bottomhalf)
+	grades.Accuracy = float32(math.Round(float64(tophalf/bottomhalf)*100) / 100)
+	grades.Fullacc = float64(tophalf / bottomhalf)
 
-	grades.grade = "D"
+	grades.Grade = "D"
 	if float32(tophalf/bottomhalf) > 0.7 {
-		grades.grade = "C"
+		grades.Grade = "C"
 	}
 	if float32(tophalf/bottomhalf) > 0.8 {
-		grades.grade = "B"
+		grades.Grade = "B"
 	}
 	if float32(tophalf/bottomhalf) > 0.9 {
-		grades.grade = "A"
+		grades.Grade = "A"
 	}
 	if float32(tophalf/bottomhalf) > 0.95 {
-		grades.grade = "S"
+		grades.Grade = "S"
 	}
 	if float32(tophalf/bottomhalf) == 1 {
-		grades.grade = "SS"
+		grades.Grade = "SS"
 	}
 
 	return grades
@@ -284,24 +284,24 @@ func ToHR(cs float32, ar float32, od float32, hp float32) *basicmapval {
 	odn := od * 1.4
 
 	if csn > 10 {
-		values.cs = 10
+		values.CS = 10
 	} else {
-		values.cs = csn
+		values.CS = csn
 	}
 	if arn > 10 {
-		values.ar = 10
+		values.AR = 10
 	} else {
-		values.ar = arn
+		values.AR = arn
 	}
 	if hpn > 10 {
-		values.hp = 10
+		values.HP = 10
 	} else {
-		values.hp = hpn
+		values.HP = hpn
 	}
 	if odn > 10 {
-		values.od = 10
+		values.OD = 10
 	} else {
-		values.od = odn
+		values.OD = odn
 	}
 	return values
 }
@@ -314,24 +314,24 @@ func ToEZ(cs float32, ar float32, hp float32, od float32) *basicmapval {
 	odn := od / 2
 
 	if csn > 10 {
-		values.cs = 10
+		values.CS = 10
 	} else {
-		values.cs = csn
+		values.CS = csn
 	}
 	if arn > 10 {
-		values.ar = 10
+		values.AR = 10
 	} else {
-		values.ar = arn
+		values.AR = arn
 	}
 	if hpn > 10 {
-		values.hp = 10
+		values.HP = 10
 	} else {
-		values.hp = hpn
+		values.HP = hpn
 	}
 	if odn > 10 {
-		values.od = 10
+		values.OD = 10
 	} else {
-		values.od = odn
+		values.OD = odn
 	}
 	return values
 }
