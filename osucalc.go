@@ -1,9 +1,12 @@
 package osumodcalculatorgo
 
 import (
+	"fmt"
 	"math"
 	"reflect"
+	"strconv"
 )
+
 /*
 convert approach rate to milliseconds
 */
@@ -153,33 +156,40 @@ func ODtoHT(od float32) *hitwindowobj {
 func CalcGradeSTD(hit300 int, hit100 int, hit50 int, miss int) *accuracygrade {
 
 	grades := new(accuracygrade)
-	tophalf := ((hit300 * 300) + (hit100 * 100) + (hit50 * 50))
-	bottomhalf := (300 * (hit300 + hit100 + hit50 + miss))
+	tophalf := float32((hit300 * 300) + (hit100 * 100) + (hit50 * 50))
+	bottomhalf := float32(300 * (hit300 + hit100 + hit50 + miss))
 
-	equationfull := float32(tophalf / bottomhalf)
+	equationfull := float64(tophalf / bottomhalf)
 	equationshort := float64(tophalf / bottomhalf)
 
-	totalhits := hit300 + hit100 + hit50 + miss
+	totalhits := float32(hit300 + hit100 + hit50 + miss)
+	hit300fl := float32(hit300)
+	hit50fl := float32(hit50)
 
 	grades.Grade = "D"
-	if float32(hit300/totalhits) > 0.6 && miss == 0 || float32(hit300/totalhits) > 0.7 {
+	if float32(hit300fl/totalhits) > 0.6 && miss == 0 || float32(hit300fl/totalhits) > 0.7 {
 		grades.Grade = "C"
 	}
-	if float32(hit300/totalhits) > 0.7 && miss == 0 || float32(hit300/totalhits) > 0.8 {
+	if float32(hit300fl/totalhits) > 0.7 && miss == 0 || float32(hit300fl/totalhits) > 0.8 {
 		grades.Grade = "B"
 	}
-	if float32(hit300/totalhits) > 0.8 && miss == 0 || float32(hit300/totalhits) > 0.9 {
+	if float32(hit300fl/totalhits) > 0.8 && miss == 0 || float32(hit300fl/totalhits) > 0.9 {
 		grades.Grade = "A"
 	}
-	if float32(hit300/totalhits) > 0.9 && miss == 0 && float32(hit50/totalhits) < 0.01 {
+	if float32(hit300fl/totalhits) > 0.9 && miss == 0 && float32(hit50fl/totalhits) < 0.01 {
 		grades.Grade = "S"
 	}
-	if float32(hit300/totalhits) > 1 {
+	if float32(hit300fl/totalhits) == 1 {
 		grades.Grade = "SS"
 	}
 
-	grades.Accuracy = float32(math.Round(float64(equationshort)*100) / 100)
+	formattedacc, err := strconv.ParseFloat(strconv.FormatFloat(equationshort, 'f', -1, 32), 32)
+	grades.Accuracy = float32(formattedacc)
 	grades.Fullacc = float64(equationfull)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	return grades
 }
@@ -188,8 +198,8 @@ func CalcGradeSTD(hit300 int, hit100 int, hit50 int, miss int) *accuracygrade {
 func CalcGradeTaiko(hit300 int, hit100 int, miss int) *accuracygrade {
 	grades := new(accuracygrade)
 
-	tophalf := (hit300 + (hit100 / 2))
-	bottomhalf := (hit300 + hit100 + miss)
+	tophalf := float32(float32(hit300) + (float32(hit100) / 2))
+	bottomhalf := float32(hit300 + hit100 + miss)
 	grades.Accuracy = float32(math.Round(float64(tophalf/bottomhalf)*100) / 100)
 	grades.Fullacc = float64(tophalf / bottomhalf)
 
@@ -249,8 +259,8 @@ func CalcGradeMania(hitgeki int, hit300 int, hitkatu int, hit100 int, hit50 int,
 
 	totalhits := hitgeki + hit300 + hitkatu + hit100 + hit50 + miss
 
-	tophalf := (300 * (hitgeki + hit300)) + (200 * hitkatu) + (100 * hit100) + (50 * hit50)
-	bottomhalf := 300 * totalhits
+	tophalf := float32((300 * (hitgeki + hit300)) + (200 * hitkatu) + (100 * hit100) + (50 * hit50))
+	bottomhalf := float32(300 * totalhits)
 
 	grades.Accuracy = float32(math.Round(float64(tophalf/bottomhalf)*100) / 100)
 	grades.Fullacc = float64(tophalf / bottomhalf)
