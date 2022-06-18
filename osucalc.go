@@ -5,6 +5,7 @@ import (
 	"math"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 /*
@@ -343,4 +344,217 @@ func ToEZ(cs float32, ar float32, hp float32, od float32) *basicmapval {
 		values.OD = odn
 	}
 	return values
+}
+
+//takes the mods as a string and returns the total int value. useful for api v1.0
+func ModStringToInt(mods string) int {
+	var modint int
+	if strings.Contains(mods, "NF") {
+		modint += 1
+	}
+	if strings.Contains(mods, "EZ") {
+		modint += 2
+	}
+	if strings.Contains(mods, "TD") {
+		modint += 4
+	}
+	if strings.Contains(mods, "HD") {
+		modint += 8
+	}
+	if strings.Contains(mods, "HR") {
+		modint += 16
+	}
+	if strings.Contains(mods, "SD") {
+		modint += 32
+	}
+	if strings.Contains(mods, "DT") {
+		modint += 64
+	}
+	if strings.Contains(mods, "RX") || strings.Contains(mods, "RL") {
+		modint += 128
+	}
+	if strings.Contains(mods, "HT") {
+		modint += 256
+	}
+	if strings.Contains(mods, "NC") {
+		modint += 512
+	}
+	if strings.Contains(mods, "FL") {
+		modint += 1024
+	}
+	if strings.Contains(mods, "AT") {
+		modint += 2048
+	}
+	if strings.Contains(mods, "SO") {
+		modint += 4096
+	}
+	if strings.Contains(mods, "AP") {
+		modint += 8192
+	}
+	if strings.Contains(mods, "PF") {
+		modint += 16384
+	}
+	if strings.Contains(mods, "1K") {
+		modint += 67108864
+	}
+	if strings.Contains(mods, "2K") {
+		modint += 268435456
+	}
+	if strings.Contains(mods, "3K") {
+		modint += 134217728
+	}
+	if strings.Contains(mods, "4K") {
+		modint += 32768
+	}	
+	if strings.Contains(mods, "5K") {
+		modint += 65536
+	}
+	if strings.Contains(mods, "6K") {
+		modint += 131072
+	}
+	if strings.Contains(mods, "7K") {
+		modint += 262144
+	}
+	if strings.Contains(mods, "8K") {
+		modint += 524288
+	}
+	if strings.Contains(mods, "9K") {
+		modint += 16777216
+	}	
+	if strings.Contains(mods, "FI") {
+		modint += 1048576
+	}
+	if strings.Contains(mods, "RDM") {
+		modint += 2097152
+	}
+	if strings.Contains(mods, "CN") {
+		modint += 4194304
+	}
+	if strings.Contains(mods, "TP") {
+		modint += 8388608
+	}
+	if strings.Contains(mods, "KC") {
+		modint += 33554432
+	}
+	if strings.Contains(mods, "SV2") || strings.Contains(mods, "S2") {
+		modint += 536870912
+	}
+	if strings.Contains(mods, "MR") {
+		modint += 1073741824
+	}
+
+    if strings.Contains(mods, "NC") && !strings.Contains(mods, "DT") {
+        modint += 64
+    }
+	return modint
+}
+//make a func that takes the mod int and returns the string\
+func ModIntToString(modint int) string {
+	var mods string
+	if modint&1 == 1 {
+		mods += "NF"
+	}
+	if modint&2 == 2 {
+		mods += "EZ"
+	}
+	if modint&4 == 4 {
+		mods += "TD"
+	}
+	if modint&8 == 8 {
+		mods += "HD"
+	}
+	if modint&16 == 16 {
+		mods += "HR"
+	}
+	if modint&32 == 32 {
+		mods += "SD"
+	}
+	if modint&64 == 64 {
+		mods += "DT"
+	}
+	if modint&128 == 128 {
+		mods += "RX"
+	}
+	if modint&256 == 256 {
+		mods += "HT"
+	}
+	if modint&512 == 512 {
+		mods += "NC"
+	}
+	if modint&1024 == 1024 {
+		mods += "FL"
+	}
+	if modint&2048 == 2048 {
+
+		mods += "AT"
+	}
+	if modint&4096 == 4096 {
+		mods += "SO"
+	}
+	if modint&8192 == 8192 {
+		mods += "AP"
+	}
+	if modint&16384 == 16384 {
+		mods += "PF"
+	}
+	if modint&67108864 == 67108864 {
+		mods += "1K"
+	}
+	if modint&268435456 == 268435456 {
+		mods += "2K"
+	}
+	if modint&134217728 == 134217728 {
+		mods += "3K"
+	}
+	if modint&32768 == 32768 {
+		mods += "4K"
+	}
+	if modint&65536 == 65536 {
+		mods += "5K"
+	}
+	if modint&131072 == 131072 {
+		mods += "6K"
+	}
+	if modint&262144 == 262144 {
+		mods += "7K"
+	}
+	if modint&524288 == 524288 {
+		mods += "8K"
+	}
+	if modint&16777216 == 16777216 {
+		mods += "9K"
+	}
+	if modint&1048576 == 1048576 {
+		mods += "FI"
+	}
+	if modint&2097152 == 2097152 {
+		mods += "RDM"
+	}
+	if modint&4194304 == 4194304 {
+		mods += "CN"
+	}
+	if modint&8388608 == 8388608 {
+		mods += "TP"
+	}
+	if modint&33554432 == 33554432 {
+		mods += "KC"
+	}
+	if modint&536870912 == 536870912 {
+		mods += "SV2"
+	}
+	if modint&1073741824 == 1073741824 {
+		mods += "MR"
+	}
+	return mods
+}
+
+func OrderMods(mods string) string {
+	var ModsOrder []string = []string{"AT", "RX", "AP", "TP", "SO", "EZ", "HD", "HT", "DT", "NC", "HR", "SD", "PF", "FL", "NF"}
+	var orderedMods string
+	for _, mod := range ModsOrder {
+		if strings.Contains(mods, mod) {
+			orderedMods += mod
+		}
+	}
+	return orderedMods
 }
