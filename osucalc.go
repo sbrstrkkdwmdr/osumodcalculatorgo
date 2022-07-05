@@ -448,7 +448,7 @@ func ModStringToInt(mods string) int {
     }
 	return modint
 }
-//make a func that takes the mod int and returns the string\
+//takes the mod int and returns a string
 func ModIntToString(modint int) string {
 	var mods string
 	if modint&1 == 1 {
@@ -545,9 +545,9 @@ func ModIntToString(modint int) string {
 	if modint&1073741824 == 1073741824 {
 		mods += "MR"
 	}
-	return mods
+	return OrderMods(mods)
 }
-
+//orders mods in the correct order
 func OrderMods(mods string) string {
 	var ModsOrder []string = []string{"AT", "RX", "AP", "TP", "SO", "EZ", "HD", "HT", "DT", "NC", "HR", "SD", "PF", "FL", "NF"}
 	var orderedMods string
@@ -557,4 +557,14 @@ func OrderMods(mods string) string {
 		}
 	}
 	return orderedMods
+}
+
+func CStoRadius(cs float64) float64 {
+	cssquare := math.Pow(cs,2)
+	return (0.00005556*cssquare - 4.483*cs + 54.42)
+}
+
+func RadiusToCS(radius float64) float64 {
+	radiussquare := math.Pow(radius,2)
+	return (5000/8104533921)*radiussquare - (1808448550/8104533921)*radius + (8582285633270972/706821088118109)
 }
