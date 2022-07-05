@@ -10,8 +10,7 @@ type hitwindowobj struct {
 
 type accuracygrade struct {
 	Grade    string
-	Accuracy float32
-	Fullacc  float64
+	Accuracy float64
 }
 
 // circle size, approach rate, overall difficulty, health drain
