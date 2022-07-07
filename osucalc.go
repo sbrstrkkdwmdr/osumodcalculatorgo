@@ -163,7 +163,7 @@ func CalcGradeSTD(hit300 int, hit100 int, hit50 int, miss int) *accuracygrade {
 	totalhits := float32(hit300 + hit100 + hit50 + miss)
 
 	grades.Grade = "D"
-	if float32(float32(hit300)/totalhits) > 0.6 && miss == 0 || float32(float32(hit300)/totalhits) > 0.7 {
+	if float32(float32(hit300)/totalhits) > 0.6 {
 		grades.Grade = "C"
 	}
 	if float32(float32(hit300)/totalhits) > 0.7 && miss == 0 || float32(float32(hit300)/totalhits) > 0.8 {
